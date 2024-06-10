@@ -6,9 +6,9 @@
 call plug#begin('~/.vim/plugged')
 
 " -- NERDTree Plugins
-Plug 'preservim/nerdtree'          " Tree
-Plug 'Xuyuanp/nerdtree-git-plugin' " Git support
-Plug 'ryanoasis/vim-devicons'	   " Icon support
+Plug 'preservim/nerdtree'          	 " Tree
+Plug 'Xuyuanp/nerdtree-git-plugin' 	 " Git support
+Plug 'ryanoasis/vim-devicons'	   	 " Icon support
 
 " -- Telescope Plugins
 Plug 'nvim-lua/plenary.nvim'				 " dependency for Telescope	
@@ -17,13 +17,15 @@ Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.6' } " Telescope
 " -- Editor Plugins
 Plug 'tpope/vim-fugitive'     " compare per-line git difs
 Plug 'airblade/vim-gitgutter' " symbols per-line git difs 
+Plug 'f-person/git-blame.nvim'
+" -- Language Server Plugins
+Plug 'neovim/nvim-lspconfig' " language server setup
 
 " -- Personalisation Plugins
 Plug 'sainnhe/everforest'            " Everforest theme
 Plug 'xiyaowong/transparent.nvim'    " nvim transparency :TransparentToggle
 Plug 'nvim-lualine/lualine.nvim'     " Lualine
 Plug 'skywind3000/vim-terminal-help' " Terminal
-
 call plug#end()
 
 
@@ -34,7 +36,7 @@ call plug#end()
 
 " -- Basics
 let mapleader = "," " leader key rebind
-set number          " numbered lines 
+set relativenumber          " numbered lines 
 syntax on           " syntax highlighting
 
 " -- Layout 
@@ -49,9 +51,6 @@ let g:everforest_background = 'hard' | colorscheme everforest " Theme variant 's
 "  General Config - LUA 
 "=========================
 
-"=========================
-"  General Config - LUA 
-"=========================
 lua << EOF
 
 -- Transparency 
@@ -126,6 +125,10 @@ require('lualine').setup {
   extensions = {},
 }
 
+-- Language Server Setup
+
+
+
 EOF
 
 
@@ -136,7 +139,8 @@ EOF
 
 " -- Generic
 nnoremap <leader>w <cmd>q<CR>           " close the focused tab
-nnoremap <leader>fv :/\c                " case insensitive word search the focused tab 
+" case insensitive word search the focused tab 
+nnoremap <leader>fw :/\c
 let g:terminal_key = '<leader>t'        " vim-terminal
 nnoremap <leader>1 <cmd>tabprevious<CR> " prev editor tab
 nnoremap <leader>2 <cmd>tabnext<CR>     " next editor tab
@@ -147,10 +151,15 @@ nnoremap <leader>e  <cmd>NERDTreeFocus<CR>  " focus
 
 " -- Telescope
 noremap <leader>ff <cmd>Telescope find_files<CR>
-noremap <leader>fg <cmd>Telescope live_grep<CR>  " !make sure ripgrep is installed
-noremap <leader>fd <cmd>Telescope git_status<CR> " show all git changed files
+" -- make sure ripgrep is installed
+noremap <leader>fg <cmd>Telescope live_grep<CR>
+" -- show all git changed files
+noremap <leader>fd <cmd>Telescope git_status<CR> 
 noremap <leader>fb <cmd>Telescope buffers<CR>
 noremap <leader>fh <cmd>Telescope help_tags<CR>
 
 " -- Fugitive
-nnoremap <Leader>gd :Gdiff<CR> " show file git diff 
+nnoremap <Leader>gg :Gdiff<CR> " show file git diff 
+
+" -- git-blame
+nnoremap <Leader>gc :GitBlameOpenFileURL<CR> " open the PR url
